@@ -7,6 +7,7 @@ import {
   useHistory
 } from "react-router-dom";
 import Params from './Params';
+import Suggestion from './Suggestion';
 
 
 
@@ -35,12 +36,14 @@ const ListUsers = () => {
         console.log(e);
 
         setPerson(e.target.value)
-        history.push(`/user/${e.target.value}`);
+        history.push(`/suggestion/${e.target.value}`);
 
       }
   return (
     <>
     <Link to="/user/:id">Link</Link>
+    <Link to="/suggestion/6">Sugg</Link>
+
     <p>
     {person}
     </p>
@@ -69,6 +72,9 @@ const ListUsers = () => {
     <Switch>
       <Route path={`/user/:id`}>
         <Params />
+      </Route>
+      <Route path={`/suggestion/:id`}>
+        <Suggestion />
       </Route>
     </Switch>
       </>
