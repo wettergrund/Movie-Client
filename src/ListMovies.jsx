@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Rating } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css'
+import styled from 'styled-components'
+
+
+const Cards = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+`;
 
 
 const ListMovies = () => {
@@ -9,7 +17,7 @@ const ListMovies = () => {
 
     useEffect(()=>{
       
-      fetch(`https://localhost:44335/API/movies/search?movie=Titanic`)
+      fetch(`https://localhost:7107/API/movies/search?movie=Titanic`)
       .then((res) => res.json())
       .then((json) => setData(json.results))
       
@@ -20,7 +28,7 @@ const ListMovies = () => {
 
   return (
 
-    <>
+    <Cards>
     {
         data.map(({ extID, title, averageScore: score, overview, poster, posterM, posterS }, index) => (
             <dir key={index}>
@@ -38,7 +46,7 @@ const ListMovies = () => {
         )).slice(0,3)
 
 }
-</>
+</ Cards>
   )
 }
 

@@ -6,7 +6,7 @@ const ListUsers = () => {
 
     useEffect(()=>{
       
-      fetch(`https://localhost:44335/API/users/all`)
+      fetch(`https://localhost:7107/API/users/all`)
       .then((res) => res.json())
       .then((json) => setData(json))
       
