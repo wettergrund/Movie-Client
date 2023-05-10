@@ -7,24 +7,21 @@ import {
   useHistory
 } from "react-router-dom";
 import Params from './Params';
-import Suggestion from './Suggestion';
 import Cards from './Cards';
+
+
+
 
 
 const ListUsers = () => {
     let history = useHistory();
 
     const [data, setData] = useState([])
-    const [sug, setSug] = useState([])
     const [person, setPerson] = useState(0)
-    const [newPerson, setnewPerson] = useState(0)
-
-    const [submit, setSubmit] = useState(false)
 
 
-  console.log("List user");
 
-  console.log(sug);
+
 
     useEffect(()=>{
       
@@ -34,30 +31,24 @@ const ListUsers = () => {
       
       },[])
     
-      useEffect(() => {
-        console.log("effect")
-        console.log(person)
-        if (person !== 0) {
-          fetch(`https://localhost:7107/API/movies/suggestion/${person}`)
-            .then((res) => res.json())
-            .then((json) => setSug(json.results))
-        }
-      }, [newPerson])
       
 
-      const handleSubmit = (event) => {
-        event.preventDefault();
-        setnewPerson(person)
+      const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log("User " + person + " is submitted");
+        // setnewPerson(person)
+
+        history.push(`/suggestion/${person}`);
+
 
 
       }
 
       const changeHandler = (e) => {
 
-        console.log("User id set to");
-        console.log(e.target.value)
+        console.log("User id changed to " + e.target.value)
         setPerson(e.target.value)
-        // history.push(`/suggestion/${e.target.value}`);
         
 
       }
@@ -97,9 +88,12 @@ const ListUsers = () => {
       <Route path={`/user/:id`}>
         <Params />
       </Route>
+      <Route path={`/suggestion/0`}>
+          <h1>Välj en användare</h1>
+        <Cards />
+      </Route>
       <Route path={`/suggestion/:id`}>
-        {/* <Suggestion data={sug} /> */}
-        <Cards data={sug} />
+        <Cards />
       </Route>
     </Switch>
       </>
