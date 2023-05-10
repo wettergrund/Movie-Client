@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import Cards from './Cards';
 
-const Suggestion = () => {
+const Suggestion = ({data}) => {
 let { id } = useParams();
 
-const [data, setData] = useState([]);
+console.log("Sug");
 
-useEffect(()=>{
+console.log(data);
+// const [data, setData] = useState([]);
+
+// useEffect(({sug})=>{
       
-    fetch(`https://localhost:7107/API/movies/suggestion/` 
-    + id)
-    .then((res) => res.json())
-    .then((json) => setData(json.results))
+    // fetch(`https://localhost:7107/API/movies/suggestion/` 
+    // + id)
+    // .then((res) => res.json())
+    // .then((json) => setData(json.results))
     
-    },[])
+    // },[])
 
-    console.log(data);
+    // console.log(data);
 
   return (
     <div>
