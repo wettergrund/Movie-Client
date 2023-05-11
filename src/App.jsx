@@ -4,29 +4,167 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import ListUsers from './ListUsers'
 import ListMovies from './ListMovies'
+import Params from './Params';
+import Cards from './Cards';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  NavLink
+} from "react-router-dom";
 
 import styled from 'styled-components'
 
 
 import { Rating } from '@smastrom/react-rating';
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 800px;
+const Wrapper = styled.div`
 
-  background: #dadada;
+  border: 1px solid black;
 
 `;
 
-function App() {
+const MainContainer = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
 
+
+`;
+
+const UserContainer = styled.div`
+  background: #282f4a;
+  position: absolute;
+  flex-wrap: wrap;
+  gap: 1rem;
+  height: 100%;
+  padding: 0 1rem;
+
+  & .active{
+    color: red;
+  }
+
+`;
+const UserCard = styled.div`
+
+
+  border-radius: .5rem;
+  
+  & > div{
+
+  }
+
+`;
+
+const MyLink = styled(NavLink)`
+  flex: 1 1 0;
+  width: 0;
+  color: #8992ae;
+  text-decoration: none;
+  
+  
+`;
+
+function App() {
+  let history = useHistory();
+
+    const [data, setData] = useState([])
+    const [person, setPerson] = useState(0)
+
+
+
+
+
+    useEffect(()=>{
+      
+      fetch(`https://localhost:7107/API/users/all`)
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      
+      },[])
+    
+      
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log("User " + person + " is submitted");
+        // setnewPerson(person)
+
+        history.push(`/suggestion/${person}`);
+
+
+
+      }
+
+      const changeHandler = (e) => {
+
+        console.log("User id changed to " + e.target.value)
+        setPerson(e.target.value)
+        
+
+      }
 
   return (
-    <Container>
-      <ListUsers />
+    <Wrapper>
+    {/* <ListUsers /> */}
+    <UserContainer>
+          {/* <h1>Start</h1> */}
+          <MyLink exact to="/"  key="0" >
+              
+            <UserCard >
+        
+        
+            <div>Hem</div>
+            
+            </UserCard>
+          </MyLink>
+          { 
+          
+          data.map((user, index) => (
+            <MyLink to={`/suggestion/${user.id}`} key={index}>
+              
+            <UserCard >
+        
+        
+            <div>{user.name}</div>
+            
+            </UserCard>
+          </MyLink>
+        
+        
+        
+        ))
+      }
+      </ UserContainer>
+
+    <MainContainer>
+      <p>Container</p>
       {/* <ListMovies /> */}
+
+      <Switch>
+      <Route path={`/user/:id`}>
+        <Params />
+      </Route>
+      <Route path={`/suggestion/0`}>
+          <h1>Välj en användare!</h1>
+        <Cards />
+      </Route>
+      <Route path={`/suggestion/:id`}>
+        <Cards />
+      </Route>
+      <Route path={`/`}>
+        <h1>Start</h1>
+        
+      
+       
+      </Route>
+    </Switch>
      
-    </Container>
+    </MainContainer>
+    </ Wrapper>
   )
 }
 
