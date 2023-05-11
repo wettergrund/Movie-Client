@@ -9,7 +9,35 @@ import {
 import Params from './Params';
 import Cards from './Cards';
 
+import { styled  , keyframes } from 'styled-components'
 
+
+const UserContainer = styled.div`
+  display: grid;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+const UserCard = styled.div`
+
+  background: #a4a4a4;
+  padding: 2rem;
+
+  border-radius: .5rem;
+  
+  & > div{
+
+  }
+
+`;
+
+const MyLink = styled(Link)`
+  flex: 1 1 0;
+  width: 0;
+  color: #000000;
+  text-decoration: none;
+  
+  
+`;
 
 
 
@@ -84,7 +112,7 @@ const ListUsers = () => {
         </select>
       <input type="submit" value="Test" />
     </form>
-    <Switch>
+    {/* <Switch>
       <Route path={`/user/:id`}>
         <Params />
       </Route>
@@ -95,7 +123,8 @@ const ListUsers = () => {
       <Route path={`/suggestion/:id`}>
         <Cards />
       </Route>
-    </Switch>
+     
+    </Switch> */}
       </>
   )
 }
