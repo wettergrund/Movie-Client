@@ -7,6 +7,7 @@ import ListMovies from './ListMovies'
 import Params from './Params';
 import Cards from './Cards';
 
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,10 +21,16 @@ import styled from 'styled-components'
 
 
 import { Rating } from '@smastrom/react-rating';
+import Genres from './Genres'
+import UserMovies from './UserMovies'
 
 const Wrapper = styled.div`
 
-  border: 1px solid black;
+border: 1px solid black;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+
 
 `;
 
@@ -36,14 +43,13 @@ const MainContainer = styled.div`
 
 const UserContainer = styled.div`
   background: #282f4a;
-  position: absolute;
   flex-wrap: wrap;
   gap: 1rem;
   height: 100%;
   padding: 0 1rem;
 
   & .active{
-    color: red;
+    color: #bec8f0;
   }
 
 `;
@@ -148,17 +154,15 @@ function App() {
       <Route path={`/user/:id`}>
         <Params />
       </Route>
-      <Route path={`/suggestion/0`}>
-          <h1>Välj en användare!</h1>
-        <Cards />
-      </Route>
       <Route path={`/suggestion/:id`}>
-        <Cards />
+        <Link to={`/`}>Back</Link>
+        {/* <Genres user={data}/> */}
+        <UserMovies user={data} />
+        {/* <Cards /> */}
       </Route>
       <Route path={`/`}>
         <h1>Start</h1>
-        
-      
+
        
       </Route>
     </Switch>

@@ -26,14 +26,14 @@ const Score = styled.div`
     background: #ffffffa6;
 
     backdrop-filter: blur(2px);
-   
+
 
 
     margin: 0 auto;
     /* box-shadow: 3px 3px black; */
 
     & > svg{
-        position: absolute; 
+        position: absolute;
 
         height: 100%;
         width: 100%;
@@ -73,7 +73,7 @@ const dash = (averageScore) => keyframes`
 `;
 
 const AnimatedCircle = styled(Circle)`
-  animation: ${(props) => dash(props.averageScore)} 2s ease-in-out forwards;
+  animation: ${(props) => dash(props.averagescore)} 2s ease-in-out forwards;
 `;
 
 
@@ -105,7 +105,7 @@ const CardContainer = styled.div`
             z-index: -1;
 
         }
-        
+
 
     }
 
@@ -114,16 +114,16 @@ const CardContainer = styled.div`
         border: 2px solid red;
         grid-row: 1 / span 2;
 
-        
-        
+
+
     } */
 
-    
+
 `;
 
 const Info = styled.div`
             background: linear-gradient( rgba(0,0,0, .5) 60% , rgba(255,0,0,0) );
-            
+
             min-height: 7rem;
 
             overflow: scroll;
@@ -137,70 +137,132 @@ const Info = styled.div`
 
 `;
 
+const UserMovies = (props) => {
 
-const Cards = () => {
-
-    
     let { id } = useParams();
     const [suggestion, setSuggestion] = useState([])
-
+    const [userMovies, setUserMovies] = useState([])
 
 
     useEffect(() => {
         // console.log("effect")
         // console.log(person)
         if (id !== 0) {
-          fetch(`https://localhost:7107/API/movies/suggestion/${id}`)
+          fetch(`https://localhost:7107/API/movies/${id}`)
             .then((res) => res.json())
-            .then((json) => setSuggestion(json.results))
+            // .then((json) => setSuggestion(json))
+            .then((json) => {
+                if(json.length < 1){
+                    setSuggestion({"isEmpty": true})
+                }
+                else{
+                    setSuggestion(json)
+                }
+            })
+
+
         }
       }, [id])
 
+      useEffect(() => {
+
+
+        // setUserMovies([])
+        // if(!suggestion.isEmpty){
+
+
+            // suggestion.map((movie) => (
+
+            //     fetch(`https://localhost:7107/API/movies/bydbid?dbID=${movie.movieID}`)
+            //     .then((res) => res.json())
+            //     // .then((json) => setSuggestion(json))
+            //     .then((json) => setUserMovies((old) => [...old, json])
+            //     )
+
+
+            //     ))
+
+            // }
+            if (!suggestion.isEmpty) {
+                Promise.all(
+                  suggestion.map((movie) =>
+                    fetch(`https://localhost:7107/API/movies/bydbid?dbID=${movie.movieID}`).then((res) => res.json())
+                  )
+                ).then((movies) => setUserMovies(movies));
+              }
+              else {
+                setUserMovies([]);
+              }
+
+
+
+
+
+
+      }, [suggestion])
+
+    //   console.log(suggestion)
+
+      if(!suggestion.isEmpty){
+
   return (
     <>
-    
+
+    {/* Add movie
+        Pass user ID (name?) */}
+    <p>Add</p>
     <CardContainer>
         {
-            
-            
-            suggestion.slice(0,4).map(({ extID, title, averageScore, overview, poster, posterM, posterS }, index) => (
 
-                <div key={index}>
-                 
+
+            userMovies.map(({ extID, title, averageScore, overview, poster, posterM, posterS }) => (
+                <div key={title}>
 
 
 
 
 
-                <Info>
-      
-                <h1>{title}</h1>
-                
-                {/* <Rating style={{ maxWidth: 100 }} value={averageScore / 2} readOnly /> */}
 
-                </Info>
-                <Score>
-                <svg className="test" viewBox="0 0 100 100">
-                    <AnimatedCircle cx="50" cy="50" r="42" averageScore={averageScore}>
-                    </AnimatedCircle>
-                    </svg>
-                    <p>
+                    <Info>
 
-                    {Math.round(averageScore * 10)/10}
-                    </p>
-                </Score>
-                <img src={posterM} alt="" />
-          
+                    <h1>{title}</h1>
 
-            </div>
+                    {/* <Rating style={{ maxWidth: 100 }} value={averageScore / 2} readOnly /> */}
 
-))
+                    </Info>
+                    <Score>
+                    <svg className="test" viewBox="0 0 100 100">
+                        <AnimatedCircle cx="50" cy="50" r="42" averagescore={averageScore}>
+                        </AnimatedCircle>
+                        </svg>
+                        <p>
+
+                        {Math.round(averageScore * 10)/10}
+                        </p>
+                    </Score>
+                    <img src={posterM} alt="" />
+
+
+                </div>
+
+            ))
+
 }
-      
+
     </CardContainer>
 </>
-    
+
+
+
   )
+} else{
+
+    return(
+        <p>Empty</p>
+    )
+
 }
 
-export default Cards
+}
+
+export default UserMovies
