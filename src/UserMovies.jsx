@@ -12,6 +12,7 @@ import {
     Link,
     useHistory
   } from "react-router-dom";
+import AddMovie from './AddMovie';
 
 
 const Score = styled.div`
@@ -139,12 +140,15 @@ const Info = styled.div`
 
 const UserMovies = (props) => {
 
+
     let { id } = useParams();
     const [suggestion, setSuggestion] = useState([])
     const [userMovies, setUserMovies] = useState([])
 
 
     useEffect(() => {
+        console.log("Props")
+        console.log(props)
         // console.log("effect")
         // console.log(person)
         if (id !== 0) {
@@ -210,6 +214,7 @@ const UserMovies = (props) => {
 
     {/* Add movie
         Pass user ID (name?) */}
+    <AddMovie user={props} id={id}/>
     <p>Add</p>
     <CardContainer>
         {

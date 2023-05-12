@@ -118,7 +118,7 @@ function App() {
     {/* <ListUsers /> */}
     <UserContainer>
           {/* <h1>Start</h1> */}
-          <MyLink exact to="/"  key="0" >
+          <MyLink exact to="/"  key="Hem" >
               
             <UserCard >
         
@@ -155,8 +155,8 @@ function App() {
         <Params />
       </Route>
       <Route path={`/suggestion/:id`}>
-        <Link to={`/`}>Back</Link>
-        {/* <Genres user={data}/> */}
+        <Link to={`/`}>Back </Link>
+        <Genres user={data}/>
         <UserMovies user={data} />
         {/* <Cards /> */}
       </Route>

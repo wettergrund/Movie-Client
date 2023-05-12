@@ -8,22 +8,22 @@ const Genres = (p) => {
 let { id } = useParams();
 
 const [genres, setGenres] = useState([])
-const [user, setUser] = useState([0])
+// const [user, setUser] = useState([0])
 
 
-useEffect(() => {
-    // console.log("effect")
-    // console.log(person)
-    if (id !== 0) {
-        const temp = p.user.filter(obj => obj.id == id);
+// useEffect(() => {
+//     // console.log("effect")
+//     // console.log(person)
+//     if (id !== 0) {
+//         const temp = p.user.filter(obj => obj.id == id);
 
         
-        setUser(temp[0]);
+//         setUser(temp[0]);
         
     
 
-    }
-  }, [id])
+//     }
+//   }, [id])
 
 
   useEffect(() => {
@@ -37,10 +37,11 @@ useEffect(() => {
             // .then((json) => setGenres(json))
             .then((json) => {
 
-                json.length !== 0 ? setGenres(json) : setGenres([`Användaren har inte kopplat sig till någon film ännu`])
+                json.length !== 0 ? setGenres(json) : setGenres([  {    "id": null,    "title": "Tomt",    "extID": null,    "description": null  }])
 
 
                 })
+            
 
                 
 
@@ -48,17 +49,15 @@ useEffect(() => {
   }, [id])
 
   
-  console.log(user);
+//   console.log(user);
   return (
     // <div>Genres</div>
     <>
-    <p>
-            {user.name}
-        </p>
+
     {
      genres.map(genre => (
         
-        <div key={genre}>{genre}</div>
+        <div key={genre.title}>{genre.title}</div>
         
         
      ))   
