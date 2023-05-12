@@ -13,69 +13,10 @@ import {
     useHistory
   } from "react-router-dom";
 import AddMovie from './AddMovie';
+import Score from './Score';
+import Movies from './Movies';
 
 
-const Score = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: center;
-
-    width: 5rem;
-    height: 5rem;
-
-    border-radius: 100%;
-    background: #ffffffa6;
-
-    backdrop-filter: blur(2px);
-
-
-
-    margin: 0 auto;
-    /* box-shadow: 3px 3px black; */
-
-    & > svg{
-        position: absolute;
-
-        height: 100%;
-        width: 100%;
-
-    }
-
-
-
-    & p {
-        display: block;
-        color: black;
-
-        font-weight: bold;
-        margin: auto;
-    }
-
-
-`;
-// TEST
-const Circle = styled.circle`
-  fill: transparent;
-  stroke: hsl(0, 100%, 80%);
-  stroke-width: 0;
-  stroke-dashoffset: 66px;
-  stroke-dasharray: 0 264;
-`;
-
-const dash = (averageScore) => keyframes`
-  to {
-    stroke-dasharray: ${0 + ((averageScore / 10) * 264)} ${264 - ((averageScore / 10) * 264)};
-    stroke: hsl(${(averageScore * 10)}, 100%, 50%);
-    stroke-width: .8rem;
-    backdrop-filter: blur(.5);
-
-
-  }
-`;
-
-const AnimatedCircle = styled(Circle)`
-  animation: ${(props) => dash(props.averagescore)} 2s ease-in-out forwards;
-`;
 
 
 // End test
@@ -142,7 +83,7 @@ const UserMovies = (props) => {
 
 
     let { id } = useParams();
-    const [suggestion, setSuggestion] = useState([])
+    const [movies, setMovies] = useState([])
     const [userMovies, setUserMovies] = useState([])
 
 
@@ -157,10 +98,10 @@ const UserMovies = (props) => {
             // .then((json) => setSuggestion(json))
             .then((json) => {
                 if(json.length < 1){
-                    setSuggestion({"isEmpty": true})
+                    setMovies({"isEmpty": true})
                 }
                 else{
-                    setSuggestion(json)
+                    setMovies(json)
                 }
             })
 
@@ -185,14 +126,20 @@ const UserMovies = (props) => {
 
 
             //     ))
-
-            // }
-            if (!suggestion.isEmpty) {
+            console.log("Movies")
+            console.log(movies)
+        
+            if (!movies.isEmpty) {
                 Promise.all(
-                  suggestion.map((movie) =>
-                    fetch(`https://localhost:7107/API/movies/bydbid?dbID=${movie.movieID}`).then((res) => res.json())
-                  )
-                ).then((movies) => setUserMovies(movies));
+                    movies.map((movie) => 
+                    fetch(`https://localhost:7107/API/movies/bydbid?dbID=${movie.movieID}`)
+                    .then((res) => res.json())
+                    .then((movieData) => ({
+                      ...movieData,
+                      score: movie.userRating
+                    }))
+                )
+              ).then((movies) => setUserMovies(movies));
               }
               else {
                 setUserMovies([]);
@@ -203,24 +150,23 @@ const UserMovies = (props) => {
 
 
 
-      }, [suggestion])
+      }, [movies])
 
     //   console.log(suggestion)
 
-      if(!suggestion.isEmpty){
+      if(!movies.isEmpty){
 
   return (
     <>
 
-    {/* Add movie
-        Pass user ID (name?) */}
-    <AddMovie user={props} id={id}/>
-    <p>Add</p>
-    <CardContainer>
+    <AddMovie user={props} id={id} />
+    {/* <Movies movies={userMovies} /> */}
+    {/* <CardContainer>
         {
+           
 
-
-            userMovies.map(({ extID, title, averageScore, overview, poster, posterM, posterS }) => (
+            userMovies.map(({ extID, title, averageScore, overview, poster, posterM, posterS, score }) => (
+                
                 <div key={title}>
 
 
@@ -232,19 +178,19 @@ const UserMovies = (props) => {
 
                     <h1>{title}</h1>
 
-                    {/* <Rating style={{ maxWidth: 100 }} value={averageScore / 2} readOnly /> */}
+                    
 
                     </Info>
-                    <Score>
-                    <svg className="test" viewBox="0 0 100 100">
-                        <AnimatedCircle cx="50" cy="50" r="42" averagescore={averageScore}>
-                        </AnimatedCircle>
-                        </svg>
-                        <p>
-
-                        {Math.round(averageScore * 10)/10}
-                        </p>
-                    </Score>
+     
+                    <Score averagescore={averageScore} />
+                    {score > 0 && score <= 5 ? 
+                    <>
+                    <p>User:</p>
+                    <Rating style={{ maxWidth: 100 }} value={score} readOnly /> 
+                    </>
+                    :
+                    null
+                    }
                     <img src={posterM} alt="" />
 
 
@@ -254,7 +200,7 @@ const UserMovies = (props) => {
 
 }
 
-    </CardContainer>
+    </CardContainer> */}
 </>
 
 
