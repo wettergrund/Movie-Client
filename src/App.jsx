@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
 border: 1px solid black;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 30% 1fr;
   min-height: 100vh;
 
 
@@ -42,11 +42,12 @@ const MainContainer = styled.div`
 `;
 
 const UserContainer = styled.div`
-  background: #282f4a;
+  /* background: #282f4a; */
   flex-wrap: wrap;
   gap: 1rem;
   height: 100%;
   padding: 0 1rem;
+
 
   & .active{
     color: #bec8f0;
@@ -65,7 +66,7 @@ const UserCard = styled.div`
 `;
 
 const MyLink = styled(NavLink)`
-  flex: 1 1 0;
+  flex: 1 1 1;
   width: 0;
   color: #8992ae;
   text-decoration: none;

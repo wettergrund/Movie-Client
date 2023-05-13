@@ -102,11 +102,11 @@ const Movies = ({movies, max, isClickable, userid}) => {
     
 
     const handleRemoveMovie = (id) => {
-        console.log("Test")
-        console.log(moviesState)
+        // console.log("Test")
+        // console.log(moviesState)
         const newMovies = moviesState.filter((movie) => movie.extID !== id);
-        console.log("New")
-        console.log(newMovies)
+        // console.log("New")
+        // console.log(newMovies)
         setMoviesState(newMovies);
       };
 
@@ -127,7 +127,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
                 console.log(response);
                 
 
-
+                handleRemoveMovie(extID);
     
     
     
@@ -163,7 +163,6 @@ const Movies = ({movies, max, isClickable, userid}) => {
 
 
                 <div key={extID}>
-                    <a href='#' onClick={() => handleRemoveMovie(extID)}>Click to remove first</a>
                     <Info>
 
                     <h1>{title}</h1>

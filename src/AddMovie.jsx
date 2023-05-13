@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Movies from './Movies';
 
 
-const AddMovie = ({user, id}) => {
+const AddMovie = ({user, id, usermovies}) => {
     // let { id } = useParams();
     const [userDetails, setUserDetails] = useState([0])
     const [name, setName] = useState("Unknown");
@@ -13,20 +13,17 @@ const AddMovie = ({user, id}) => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        // console.log("effect")
-        // console.log(person)
-        if (id !== 0) {
-            const temp = user.user.filter(obj => obj.id == id);
-    
-            
-            setUserDetails(temp[0]);
-            
-            
+      console.log("UserMovies")
+      console.log(usermovies)
+      if (id !== 0) {
+        const temp = user.user.filter(obj => obj.id == id);
+      console.log(temp[0])
 
-        
-     
+        if (temp.length > 0) {
+          setUserDetails(temp[0]);
         }
-      }, [id])
+      }
+    }, [id])
 
 
       useEffect(() => {
