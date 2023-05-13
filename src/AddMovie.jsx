@@ -89,7 +89,7 @@ const AddMovie = ({user, id}) => {
     </form>
 
 
-    <Movies movies={movies} isClickable />
+    <Movies movies={movies} userid={id} isClickable />
 
     
     

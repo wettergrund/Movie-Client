@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Rating } from '@smastrom/react-rating';
 import Score from './Score';
 
+import axios from 'axios';
 
 
 const CardContainer = styled.div`
@@ -89,10 +90,60 @@ const Info = styled.div`
 
 `;
 
-const Movies = ({movies, max, isClickable}) => {
+
+
+const Movies = ({movies, max, isClickable, userid}) => {
+
+    const [moviesState, setMoviesState] = useState([]);
+
+    useEffect(() => {
+        setMoviesState(movies);
+    }, [movies]);
+    
+
+    const handleRemoveMovie = (id) => {
+        console.log("Test")
+        console.log(moviesState)
+        const newMovies = moviesState.filter((movie) => movie.extID !== id);
+        console.log("New")
+        console.log(newMovies)
+        setMoviesState(newMovies);
+      };
+
+    const connectMovie = (score, extID, userid) =>{
+        
+        const userIdNum = Number(userid);
+    
+        console.log(score)
+        console.log(extID)
+        
+        
+        console.log(userIdNum)
+    
+        axios.post(`https://localhost:7107/API/movie/userlink?userID=${userid}&extId=${extID}&rating=${userIdNum}`,
+            
+            )
+            .then(response => {
+                console.log(response);
+                
+
+
+    
+    
+    
+    
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    
+    
+    }
+
+
 
     if(max !== 0 || max !== undefined){
-        movies = movies.slice(0,4)
+        movies = movies.slice(0,8)
     }
 
     console.log("Movies")
@@ -101,17 +152,18 @@ const Movies = ({movies, max, isClickable}) => {
     return (
     
     <CardContainer>
+        
         {
            
 
 
-           movies.map(({ extID, title, averageScore, overview, poster, posterM, posterS, score }) => (
+           moviesState.slice(0,4).map(({ extID, title, averageScore, overview, poster, posterM, posterS, score }) => (
                 
             
 
 
                 <div key={extID}>
-
+                    <a href='#' onClick={() => handleRemoveMovie(extID)}>Click to remove first</a>
                     <Info>
 
                     <h1>{title}</h1>
@@ -132,7 +184,7 @@ const Movies = ({movies, max, isClickable}) => {
                     null
                     }
                     {
-                        isClickable ? <Add><Rating style={{ maxWidth: 200 }} value={score} /> </Add> : null
+                        isClickable ? <Add><Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} /> </Add> : null
                     }
                     <img src="..\img\placeholder.svg" alt="" />
                     <img src={posterM} alt="" />
