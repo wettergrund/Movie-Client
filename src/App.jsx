@@ -36,7 +36,8 @@ border: 1px solid black;
 
 const MainContainer = styled.div`
   margin: 0 auto;
-  max-width: 800px;
+  width: 80%;
+  max-width: 500px;
 
 
 `;
@@ -47,11 +48,6 @@ const UserContainer = styled.div`
   gap: 1rem;
   height: 100%;
   padding: 0 1rem;
-
-
-  & .active{
-    color: #bec8f0;
-  }
 
 `;
 const UserCard = styled.div`
@@ -71,6 +67,9 @@ const MyLink = styled(NavLink)`
   color: #8992ae;
   text-decoration: none;
   
+  &.active{
+    color: #bec8f0;
+  }
   
 `;
 
@@ -131,7 +130,7 @@ function App() {
           { 
           
           data.map((user, index) => (
-            <MyLink to={`/suggestion/${user.id}`} key={index}>
+            <MyLink to={`/${user.id}`} key={index}>
               
             <UserCard >
         
@@ -152,10 +151,8 @@ function App() {
       {/* <ListMovies /> */}
 
       <Switch>
-      <Route path={`/user/:id`}>
-        <Params />
-      </Route>
-      <Route path={`/suggestion/:id`}>
+  
+      <Route path={`/:id`}>
         <Link to={`/`}>Back </Link>
         <Genres user={data}/>
         <UserMovies user={data} />

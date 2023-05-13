@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { styled  , keyframes } from 'styled-components'
 import { useParams } from "react-router-dom";
 
+
+
 import { Rating } from '@smastrom/react-rating';
 import Score from './Score';
 
@@ -12,7 +14,7 @@ import axios from 'axios';
 const CardContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1rem;
 
     & > div {
 
@@ -176,15 +178,21 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     }
                     {score > 0 && score <= 5 ? 
                     <>
-                    <p>User:</p>
-                    <Rating style={{ maxWidth: 100 }} value={score} readOnly /> 
+                    {/* <p>User:</p>
+                    <Rating style={{ maxWidth: 100 }} value={score} readOnly />  */}
                     </>
                     :
                     null
                     }
+                    <Add>
                     {
-                        isClickable ? <Add><Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} /> </Add> : null
+                        isClickable ? 
+                        <Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} />  : 
+                        score > 0 && score <= 5 ? 
+                        <Rating style={{ maxWidth: 150 }} value={score} readOnly  /> : 
+                        <Rating style={{ maxWidth: 150 }} isDisabled  />
                     }
+                    </Add>
                     <img src="..\img\placeholder.svg" alt="" />
                     <img src={posterM} alt="" />
 

@@ -9,11 +9,23 @@ import {
     Switch,
     Route,
     Link,
-    useHistory
+    useHistory,
+    NavLink
   } from "react-router-dom";
 import AddMovie from './AddMovie';
 import Movies from './Movies';
 
+const MyLink = styled(NavLink)`
+  flex: 1 1 1;
+  width: 0;
+  color: #8992ae;
+  text-decoration: none;
+
+  &.active{
+    color: #bec8f0;
+  }
+  
+`;
 
 
 
@@ -76,26 +88,38 @@ const UserMovies = (props) => {
 
     //   console.log(suggestion)
 
-      if(!movies.isEmpty){
+    //   if(!movies.isEmpty){
 
   return (
     <>
 
-    <AddMovie user={props} usermovies={userMovies} id={id} />
-    {/* <Movies movies={userMovies} /> */}
+    {!movies.isEmpty ? 
+        <MyLink exact to={`/${id}/liked`}>Sparade filmer </MyLink>
+         : null
+    }
+    {/* <MyLink exact to={`/${id}/liked`}>Hejsan </MyLink> */}
+    <MyLink exact to={`/${id}/add`}>+ Add movie</MyLink>
 
+
+    <switch>
+        <Route path={`/${id}/liked`}>
+
+            <Movies movies={userMovies} />
+
+        </Route>
+        <Route path={`/${id}/add`}>
+
+            <AddMovie user={props} usermovies={userMovies} id={id} />
+
+        </Route>
+    </switch>
+    
 </>
 
 
 
   )
-} else{
 
-    return(
-        <p>Empty</p>
-    )
-
-}
 
 }
 
