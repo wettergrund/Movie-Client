@@ -8,7 +8,6 @@ const Genres = (p) => {
 let { id } = useParams();
 
 const [genres, setGenres] = useState([]);
-const [uniqueGenres, setUniqueGenres] = useState([]);
 
   useEffect(() => {
     // console.log("effect")
@@ -32,7 +31,8 @@ const [uniqueGenres, setUniqueGenres] = useState([]);
     }
   }, [id])
 
-
+  const uniqueGenres = [...new Set(genres.map((genre) => genre.title))];
+  console.log(uniqueGenres)
 
   return (
     // <div>Genres</div>
@@ -40,9 +40,9 @@ const [uniqueGenres, setUniqueGenres] = useState([]);
 
     {
       
-      genres.map(genre => (
+      uniqueGenres.map(genre => (
         
-        <div key={genre.title}>{genre.title}</div>
+        <div key={genre}>{genre}</div>
         
         
      ))   
