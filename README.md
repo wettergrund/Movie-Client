@@ -1,4 +1,6 @@
 # Movie Client
+![image](https://github.com/wettergrund/Movie-Client/assets/50584818/0968a58b-6164-47eb-a102-c7afe62330ca)
+
 This is a website that will work as a front end for my previous backend/API project:
 https://github.com/wettergrund/Movie-System
 
