@@ -12,16 +12,25 @@ import axios from 'axios';
 
 
 const CardContainer = styled.div`
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1rem; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    flex-wrap: wrap;
 
     & > div {
 
-        border: 1px solid black;
-        border-radius: .5rem;
+        /* border: 1px solid black; */
+        border-radius: .25rem;
         background: linear-gradient( #f1f1f1 70%,#bdbdbd);
-        box-shadow: 5px 5px black;
+        /* box-shadow: 5px 5px black; */
         width: 250px;
         padding: 0;
         position: relative;
@@ -55,14 +64,15 @@ const CardContainer = styled.div`
 const Add = styled.div`
     position: absolute;
 display: flex;
+flex-direction: column; 
 justify-content: center;
+align-items: center;
 width: 100%;
 height: 5rem;
 /* border-radius: 100%; */
 background: #ffffffa6;
 backdrop-filter: blur(2px);
 bottom: 0;
-margin: 0 auto;
 border-top: 1px solid white;
 
     & > a{
@@ -72,6 +82,12 @@ border-top: 1px solid white;
         margin: auto;
         text-decoration: none;
         
+    }
+
+    & > p{
+        color: black;
+        font-size: .8rem;
+        margin: 0;
     }
 
 `;
@@ -104,11 +120,9 @@ const Movies = ({movies, max, isClickable, userid}) => {
     
 
     const handleRemoveMovie = (id) => {
-        // console.log("Test")
-        // console.log(moviesState)
+
         const newMovies = moviesState.filter((movie) => movie.extID !== id);
-        // console.log("New")
-        // console.log(newMovies)
+   
         setMoviesState(newMovies);
       };
 
@@ -116,11 +130,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
         
         const userIdNum = Number(userid);
     
-        console.log(score)
-        console.log(extID)
-        
-        
-        console.log(userIdNum)
+
     
         axios.post(`https://localhost:7107/API/movie/userlink?userID=${userid}&extId=${extID}&rating=${userIdNum}`,
             
@@ -185,6 +195,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     null
                     }
                     <Add>
+                    <p>Users score</p>
                     {
                         isClickable ? 
                         <Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} />  : 

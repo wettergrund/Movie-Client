@@ -1,11 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
+import { styled  , keyframes } from 'styled-components'
 
 import Movies from './Movies';
 
+const SearchButton = styled.input`
+    background: #21e08b;
+    color: white;
 
-const AddMovie = ({user, id, usermovies}) => {
-    // let { id } = useParams();
+    border: 0;
+    padding: 1rem .7rem;
+    width: 8rem;
+    border-radius: 0 2rem 2rem 0;
+
+`;
+const InputField = styled.input`
+    background: #515863;
+    color: white;
+
+    border: 0;
+    padding: 1rem .7rem;
+    width: 16rem;
+    border-radius: 2rem 0 0 2rem;
+
+`;
+
+const SearchArea = styled.div`
+  margin: 2rem;
+
+`;
+
+
+const AddMovie = ({user, usermovies}) => {
+    let { id } = useParams();
     const [userDetails, setUserDetails] = useState([0])
     const [name, setName] = useState("Unknown");
     const [input, setInput] = useState("");
@@ -75,13 +102,13 @@ const AddMovie = ({user, id, usermovies}) => {
     }, [search])
         
   return (
-    <>
+    <SearchArea>
     {/* <p>Sök på en film du vill lägga till {user}</p> */}
-    <div>Lägg till film för {name} </div>
+    <h2>Lägg till film för {name} </h2>
     <form onSubmit={submitHandler}>
       
-      <input type="text" onChange={changeHandler} value={input}></input>
-      <input type="submit" value="Sök" />
+      <InputField type="text" onChange={changeHandler} value={input}></InputField>
+      <SearchButton type="submit" value="Sök" />
 
     </form>
 
@@ -90,7 +117,7 @@ const AddMovie = ({user, id, usermovies}) => {
 
     
     
-    </>
+    </ SearchArea>
   )
 }
 
