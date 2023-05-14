@@ -14,10 +14,7 @@ const ScoreContainer = styled.div`
 
     backdrop-filter: blur(2px);
 
-
-
     margin: 0 auto;
-    /* box-shadow: 3px 3px black; */
 
     & > svg{
         position: absolute;
@@ -26,8 +23,6 @@ const ScoreContainer = styled.div`
         width: 100%;
 
     }
-
-
 
     & p {
         display: block;
@@ -39,7 +34,6 @@ const ScoreContainer = styled.div`
 
 
 `;
-// TEST
 const Circle = styled.circle`
   fill: transparent;
   stroke: hsl(0, 100%, 80%);
@@ -64,6 +58,8 @@ const AnimatedCircle = styled(Circle)`
 `;
 
 const Score = ({averagescore}) => {
+
+  // Component to visualize a score/percentage
   return (
     <ScoreContainer>
     <svg className="test" viewBox="0 0 100 100">

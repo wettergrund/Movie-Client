@@ -9,9 +9,10 @@ let { id } = useParams();
 
 const [genres, setGenres] = useState([]);
 
+
+  // Set user genre state
   useEffect(() => {
-    // console.log("effect")
-    // console.log(person)
+    
     if (id !== 0) {
   
         
@@ -24,29 +25,25 @@ const [genres, setGenres] = useState([]);
 
 
                 })
-            
-
-                
-
+      
     }
   }, [id])
 
   const uniqueGenres = [...new Set(genres.map((genre) => genre.title))];
-  console.log(uniqueGenres)
 
   return (
-    // <div>Genres</div>
     <>
-
+    <div>
+    <h1>User is interested in the following genres</h1>
     {
       
       uniqueGenres.map(genre => (
         
         <div key={genre}>{genre}</div>
         
-        
-     ))   
-    }
+        ))   
+      }
+    </ div>
     </>
   )
 }

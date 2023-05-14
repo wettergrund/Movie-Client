@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react'
-
 import { styled  , keyframes } from 'styled-components'
-import { useParams } from "react-router-dom";
-
-
-
 import { Rating } from '@smastrom/react-rating';
-import Score from './Score';
-
 import axios from 'axios';
 
+import Score from './Score';
+
+
+// Styled components
 
 const CardContainer = styled.div`
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem; */
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,17 +42,6 @@ const CardContainer = styled.div`
 
 
     }
-
-    /* & > div:first-child{
-
-        border: 2px solid red;
-        grid-row: 1 / span 2;
-
-
-
-    } */
-
-
 `;
 const Add = styled.div`
     position: absolute;
@@ -69,7 +51,6 @@ justify-content: center;
 align-items: center;
 width: 100%;
 height: 5rem;
-/* border-radius: 100%; */
 background: #ffffffa6;
 backdrop-filter: blur(2px);
 bottom: 0;
@@ -114,52 +95,38 @@ const Movies = ({movies, max, isClickable, userid}) => {
 
     const [moviesState, setMoviesState] = useState([]);
 
+    // Take parameter movies and add it to a state
     useEffect(() => {
         setMoviesState(movies);
     }, [movies]);
     
 
+    // Removal of item from list, when it's added
     const handleRemoveMovie = (id) => {
-
         const newMovies = moviesState.filter((movie) => movie.extID !== id);
-   
         setMoviesState(newMovies);
       };
 
-    const connectMovie = (score, extID, userid) =>{
-        
-        const userIdNum = Number(userid);
-    
 
+    // Function to connect user to a new movie and add rating
+    const connectMovie = (score, extID, userid) =>{
     
-        axios.post(`https://localhost:7107/API/movie/userlink?userID=${userid}&extId=${extID}&rating=${userIdNum}`,
+        axios.post(`https://localhost:7107/API/movie/userlink?userID=${userid}&extId=${extID}&rating=${score}`,
             
             )
             .then(response => {
                 console.log(response);
                 
-
                 handleRemoveMovie(extID);
-    
-    
-    
     
             })
             .catch(error => {
                 console.error(error);
             });
     
-    
     }
 
 
-
-    if(max !== 0 || max !== undefined){
-        movies = movies.slice(0,8)
-    }
-
-    console.log("Movies")
-    console.log(movies)
 
     return (
     
@@ -178,9 +145,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     <Info>
 
                     <h1>{title}</h1>
-
                     
-
                     </Info>
                     {averageScore > 0 ? 
                     <Score averagescore={averageScore} /> :
@@ -188,8 +153,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     }
                     {score > 0 && score <= 5 ? 
                     <>
-                    {/* <p>User:</p>
-                    <Rating style={{ maxWidth: 100 }} value={score} readOnly />  */}
+               
                     </>
                     :
                     null
@@ -197,6 +161,7 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     <Add>
                     <p>Users score</p>
                     {
+                        // If not clickable then check if it have got any reviews.
                         isClickable ? 
                         <Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} />  : 
                         score > 0 && score <= 5 ? 

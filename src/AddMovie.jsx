@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
-import { styled  , keyframes } from 'styled-components'
+import { styled } from 'styled-components'
 
 import Movies from './Movies';
+
+
+// Styled components
 
 const SearchButton = styled.input`
     background: #21e08b;
     color: white;
-
     border: 0;
     padding: 1rem .7rem;
     width: 8rem;
@@ -32,81 +34,61 @@ const SearchArea = styled.div`
 
 
 const AddMovie = ({user, usermovies}) => {
+
     let { id } = useParams();
-    const [userDetails, setUserDetails] = useState([0])
+    // const [userDetails, setUserDetails] = useState([0])
     const [name, setName] = useState("Unknown");
     const [input, setInput] = useState("");
     const [search, setSearch] = useState("");
     const [movies, setMovies] = useState([]);
 
+    // Store user details for the current user
     useEffect(() => {
-      console.log("UserMovies")
-      console.log(usermovies)
+
       if (id !== 0) {
         const temp = user.user.filter(obj => obj.id == id);
       console.log(temp[0])
 
         if (temp.length > 0) {
-          setUserDetails(temp[0]);
+          // setUserDetails(temp[0]);
+          setName(temp[0].name);
         }
       }
     }, [id])
 
 
-      useEffect(() => {
-        console.log("Details")
-        console.log(userDetails)
-        setName(userDetails.name)
-        
-      }, [userDetails])
-
-
+      // Reset when ID is changed
       useEffect(() => {
         setInput("");
         setMovies([]);
       }, [id]);
 
 
-
     const submitHandler = (e) => {
-      // LOgic for listing movies
       e.preventDefault()
       setSearch(input)
     }
-      
-   
-
-    
 
     const changeHandler = (e) => {
       setInput(e.target.value)
     }
-    
 
     useEffect(() => {
-      console.log("Props")
-      console.log(search)
-      // console.log("effect")
-      // console.log(person)
+
       if (search.length !== 0) {
         fetch(`https://localhost:7107/API/movies/search?movie=${search}`)
           .then((res) => res.json())
-          // .then((json) => setSuggestion(json))
-          // .then((json) => console.log(json))
           .then((json) => setMovies(json.results))
-
-
-
-
       }
+
     }, [search])
-        
+
   return (
     <SearchArea>
-    {/* <p>Sök på en film du vill lägga till {user}</p> */}
-    <h2>Lägg till film för {name} </h2>
+    <h2>Add movie for {name} </h2>
+    <p>Search for a movie below</p>
     <form onSubmit={submitHandler}>
-      
+
       <InputField type="text" onChange={changeHandler} value={input}></InputField>
       <SearchButton type="submit" value="Sök" />
 
@@ -115,8 +97,8 @@ const AddMovie = ({user, usermovies}) => {
 
     <Movies movies={movies} userid={id} isClickable />
 
-    
-    
+
+
     </ SearchArea>
   )
 }
