@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { styled  , keyframes } from 'styled-components'
 import { Rating } from '@smastrom/react-rating';
+
+import '@smastrom/react-rating/style.css'
 import axios from 'axios';
 
 import Score from './Score';
@@ -10,7 +12,7 @@ import Score from './Score';
 
 const CardContainer = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
@@ -151,17 +153,16 @@ const Movies = ({movies, max, isClickable, userid}) => {
                     <Score averagescore={averageScore} /> :
                     null
                     }
-                    {score > 0 && score <= 5 ? 
+                    {/* {score > 0 && score <= 5 ? 
                     <>
-               
+                
                     </>
                     :
                     null
-                    }
+                    } */}
                     <Add>
                     <p>Users score</p>
                     {
-                        // If not clickable then check if it have got any reviews.
                         isClickable ? 
                         <Rating style={{ maxWidth: 200 }} value={score} onChange={(e) => connectMovie(e,extID, userid)} />  : 
                         score > 0 && score <= 5 ? 

@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import {
   Switch,
   Route,
+  useHistory,
   NavLink
 } from "react-router-dom";
 import styled from 'styled-components'
+import { Rating } from '@smastrom/react-rating';
 
 import UserMovies from './UserMovies'
 
@@ -17,7 +19,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   max-width: 1400px;
   box-shadow: 0 0 50px rgb(0,0,0,0.25);
-  min-height: 100vh;
+  min-height: 80vh;
   background: #253240;
 `;
 
